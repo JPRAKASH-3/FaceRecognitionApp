@@ -1,0 +1,28 @@
+<!-- templates/index.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>Face Recognition - Live</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+  <div class="container">
+    <header>
+      <h1>Live Face Detection & Recognition</h1>
+      <nav>
+        <a href="{{ url_for('register') }}">Register</a> |
+        <a href="{{ url_for('admin') }}">Admin</a>
+      </nav>
+    </header>
+
+    <main>
+      <div class="video-frame">
+        <img src="{{ url_for('video_feed') }}" alt="Live feed" id="live">
+      </div>
+      <p class="note">Recognizes only approved users.</p>
+    </main>
+  </div>
+  <script src="{{ url_for('static', filename='script.js') }}"></script>
+</body>
+</html>

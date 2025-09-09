@@ -1,0 +1,100 @@
+<!-- templates/admin.html -->
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>Admin - Registrations</title>
+    <link
+      rel="stylesheet"
+      href="{{ url_for('static', filename='style.css') }}"
+    />
+  </head>
+  <body>
+    <div class="container">
+      <header>
+        <h1>Admin Panel</h1>
+        <p>
+          <a href="{{ url_for('index') }}">Live</a> |
+          <a href="{{ url_for('register') }}">Register</a>
+        </p>
+      </header>
+
+      <section>
+        <table class="entries">
+          <thead>
+            <tr>
+              <th>ID</th>
+              <th>Name</th>
+              <th>Role</th>
+              <th>Timestamp</th>
+              <th>Photo</th>
+              <th>Status</th>
+              <th>Action</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for e in entries %}
+            <tr>
+              <td>{{ e.user_id }}</td>
+              <td>{{ e.name }}</td>
+              <td>{{ e.role }}</td>
+              <td>{{ e.timestamp }}</td>
+              <td>
+                {% if e.image_path %}
+                <img src="/{{ e.image_path }}" alt="photo" class="thumb" />
+                {% endif %}
+              </td>
+              <td>{{ e.status }}</td>
+              <td>
+                {% if e.status == 'pending' %}
+                <form
+                  method="POST"
+                  action="{{ url_for('approve', user_id=e.user_id) }}"
+                  style="display: inline"
+                >
+                  <button class="btn approve" type="submit">Approve</button>
+                </form>
+                <form
+                  method="POST"
+                  action="{{ url_for('reject', user_id=e.user_id) }}"
+                  style="display: inline"
+                >
+                  <button class="btn reject" type="submit">Reject</button>
+                </form>
+                {% else %}
+                <span class="small">{{ e.status }}</span>
+                {% endif %}
+              </td>
+            </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </section>
+    </div>
+    <section>
+      <h2>Attendance Log</h2>
+      <table class="entries">
+        <thead>
+          <tr>
+            <th>Name</th>
+            <th>Role</th>
+            <th>Date</th>
+            <th>Time</th>
+            <th>Status</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for row in data %}
+          <tr>
+            <td>{{row['Name']}}</td>
+            <td>{{row['Role']}}</td>
+            <td>{{row['Date']}}</td>
+            <td>{{row['Time']}}</td>
+            <td>{{row['Status']}}</td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </section>
+  </body>
+</html>
